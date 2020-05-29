@@ -10,8 +10,8 @@ class App extends Component {
   }
 
   getCases = () => {
-    fetch('/cases', { mode: 'cors'})
-      .then(res => res.json())
+    fetch('/cases')
+      .then(res => { if (res.headers.get('X-Redirect')) { window.location = res.headers.get('X-Redirect') } else { return res.json(); }})
       .then(cases => this.setState({ cases }));
   }
 
