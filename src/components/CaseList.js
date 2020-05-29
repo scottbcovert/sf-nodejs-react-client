@@ -4,8 +4,8 @@ import './CaseList.css';
 
 function CaseList(props) {
     return (
-        <div class="container">
-            {props.cases.map(c => <Case key={c.id} number={c.number} />)}
+        <div className="container">
+            {props.cases.map(c => <Case key={c.Id} number={c.CaseNumber} />)}
         </div>
     )
 }
