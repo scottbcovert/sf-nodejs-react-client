@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
-import CaseList from './components/CaseList';
+import LeadList from './components/LeadList';
 
 class App extends Component {
-  state = { cases: [] }
+  state = { leads: [] }
 
   componentDidMount() {
-    this.getCases();
+    this.getLeads();
   }
 
-  getCases = () => {
-    fetch('/cases')
+  getLeads = () => {
+    fetch('/leads')
       .then(res => { if (res.headers.get('X-Redirect')) { window.location = res.headers.get('X-Redirect') } else { return res.json(); }})
-      .then(cases => { if (cases) { this.setState({ cases }) }});
+      .then(leads => { if (leads) { this.setState({ leads }) }});
   }
 
   render() {
-    const { cases } = this.state;
+    const { leads } = this.state;
 
     return (
       <div className="App">
-        {cases.length ? (
+        {leads.length ? (
           <div>
-            <CaseList
-              cases={cases}
+            <LeadList
+              leads={leads}
             />
           </div>
         ) : (
           <div>
-            <h1>No cases found :-(</h1>
+            <h1>No leads found :-(</h1>
           </div>
         )}
         <button
-          onClick={this.getCases}>
+          onClick={this.getLeads}>
           Refresh
         </button>
       </div>
