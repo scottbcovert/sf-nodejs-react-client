@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
-import CaseList from './components/CaseList';
+import UserList from './components/UserList';
 
 class App extends Component {
-  state = { cases: [] }
+  state = { users: [] }
 
   componentDidMount() {
-    this.getCases();
+    this.getUsers();
   }
 
-  getCases = () => {
-    fetch('/cases')
+  getUsers = () => {
+    fetch('/users')
       .then(res => { if (res.headers.get('X-Redirect')) { window.location = res.headers.get('X-Redirect') } else { return res.json(); }})
-      .then(cases => { if (cases) { this.setState({ cases }) }});
+      .then(users => { if (users) { this.setState({ users }) }});
   }
 
   render() {
-    const { cases } = this.state;
+    const { users } = this.state;
 
     return (
       <div className="App">
-        {cases.length ? (
+        {users.length ? (
           <div>
-            <CaseList
-              cases={cases}
+            <UserList
+              users={users}
             />
           </div>
         ) : (
           <div>
-            <h1>No cases found :-(</h1>
+            <h1>No users found :-(</h1>
           </div>
         )}
         <button
-          onClick={this.getCases}>
+          onClick={this.getUsers}>
           Refresh
         </button>
       </div>
