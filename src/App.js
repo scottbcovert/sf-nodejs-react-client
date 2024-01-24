@@ -1,40 +1,49 @@
 import React, { Component } from 'react';
 import './App.css';
-import UserList from './components/UserList';
 
 class App extends Component {
-  state = { users: [] }
-
-  componentDidMount() {
-    this.getUsers();
+  state = {
+    authenticated: false,
+    domain: ''
   }
 
-  getUsers = () => {
-    fetch('/users')
-      .then(res => { if (res.headers.get('X-Redirect')) { window.location = res.headers.get('X-Redirect') } else { return res.json(); }})
-      .then(users => { if (users) { this.setState({ users }) }});
+  componentDidMount() {
+    this.getTokens();
+  }
+
+  getTokens = async () => {
+    try {
+      // Pass URL parameters along to express server
+      const response = await fetch('/tokens?' + new URLSearchParams(
+        window.location.search
+      ));
+      if (response.headers.get('X-Redirect')) {
+        return window.location = response.headers.get('X-Redirect');
+      }
+      const state = await response.json();
+      this.setState(state);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   render() {
-    const { users } = this.state;
+    const {
+      authenticated,
+      domain
+    } = this.state;
 
     return (
       <div className="App">
-        {users.length ? (
+        {authenticated ? (
           <div>
-            <UserList
-              users={users}
-            />
+            <h1>Successfully authenticated with {domain}! You can now close this browser tab.</h1>
           </div>
         ) : (
           <div>
-            <h1>No users found :-(</h1>
+            <h1>Authenticating with {domain}</h1>
           </div>
         )}
-        <button
-          onClick={this.getUsers}>
-          Refresh
-        </button>
       </div>
     )
   }
