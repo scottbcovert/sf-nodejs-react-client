@@ -13,10 +13,13 @@ class App extends Component {
 
   getTokens = async () => {
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      this.setState({
+        ...urlParams,
+        authenticated: false
+      });
       // Pass URL parameters along to express server
-      const response = await fetch('/tokens?' + new URLSearchParams(
-        window.location.search
-      ));
+      const response = await fetch('/tokens?' + urlParams);
       if (response.headers.get('X-Redirect')) {
         return window.location = response.headers.get('X-Redirect');
       }
