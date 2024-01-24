@@ -14,10 +14,6 @@ class App extends Component {
   getTokens = async () => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      this.setState({
-        ...urlParams,
-        authenticated: false
-      });
       // Pass URL parameters along to express server
       const response = await fetch('/tokens?' + urlParams);
       if (response.headers.get('X-Redirect')) {
@@ -44,7 +40,7 @@ class App extends Component {
           </div>
         ) : (
           <div>
-            <h1>Authenticating with {domain}</h1>
+            <h1>Authenticating with Salesforce...</h1>
           </div>
         )}
       </div>
