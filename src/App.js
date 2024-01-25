@@ -4,7 +4,7 @@ import './App.css';
 class App extends Component {
   state = {
     authenticated: false,
-    domain: ''
+    target: ''
   }
 
   componentDidMount() {
@@ -29,14 +29,14 @@ class App extends Component {
   render() {
     const {
       authenticated,
-      domain
+      target
     } = this.state;
 
     return (
       <div className="App">
         {authenticated ? (
           <div>
-            <h1>Successfully authenticated with {domain}! You can now close this browser tab.</h1>
+            <h1>Successfully authenticated with {target}! You can now close this browser tab.</h1>
           </div>
         ) : (
           <div>
